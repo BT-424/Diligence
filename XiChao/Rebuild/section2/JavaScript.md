@@ -77,7 +77,7 @@ JavaScrip 中在变量声明后，可以通过赋值的方式改变变量存储�
 
 ## JavaScript 的值
 > 1. 原始值
-  2. 引用值
+    2. 引用值
 
 ### 语言类型
 JavaScript 是一门弱类型语言，在定义是不确定类型，通过变量存储的值来确定类型
@@ -94,6 +94,7 @@ JS 也可以成为 动态语言，当对一个变量赋值时,是不需要考虑
   - Boolean （布尔值）
   - Undefined （undefined）
   - Null  （null）
+  - (后续还有 Symbol 和 bigint)
 
 **Number**
 数字类型
@@ -151,16 +152,519 @@ null 标识空值，一般用于初始化、占位。
 
 ### 引用值
 > 比较常用的引用值
-  1. Object
-  2. Array
-  3. Function
-  4. Date
-  5. RegExp
+    1. Object
+    2. Array
+    3. Function
+    4. Date
+    5. RegExp
 
 ### 内存
 > 原始值与引用值在内存当中的存储方式不同
 
-#### 栈内存
-  栈内存的存储格式是后进先出，可以联想到现实生活中的很多东西，比如装箱子的时候后放入的先取出来
+```javascript
+  var a = 1;
+  var b = a;
+  a = 2;
+  console.log(a); // 输出 2
+  console.log(b); // 输出 1
 
-#### 堆内存
+
+  var arr1 = [1, 2, 3, 4];
+  var arr2 = arr1;
+  arr1.push(5)
+  console.log(arr1) // 输出 [1, 2, 3, 4, 5]
+  console.log(arr2) // 输出 [1, 2, 3, 4, 5]
+```
+
+原始值在存储时直接将值存储到栈内存中，在 `b = a` 是将a在栈中的数据赋值到了 b 的内存空间中，所以不会相互影响
+
+引用值在存储时将数据存储到堆内存中，而将堆内存中的地址信息存储在栈内存中，所以 `arr2 = arr1` 是将 arr1 值所对应的地址赋值给了 arr2 的内存空间，实际上两者都指向同一数据，由此造成数据影响
+
+**引用值为什么存放在堆内存中**
+  - 堆比栈大，栈比堆快
+  - 原始值数据稳定只占据很小的内存
+  - 引用值是一个复杂的结构并且可以自由扩展
+
+## JavaScript 语法
+> JavaScript 在浏览器中调试可以使用 F12 或右键检查
+### 规范
+    1. 语句以分号结尾，JS 引擎是以分号划分语句
+    2. 行注释    // 双斜杠后写注释
+    3. 块注释
+    	/*
+    	*	注释注释
+    	*	注视注释
+    	*/
+
+### 错误
+- 语法错误
+  - 语法错误会导致代码块无法执行，不影响其他代码块
+- 通用错误
+  - 通用错误会中断执行，不同代码块不相互影响
+
+### 运算符
+  - +
+  - -
+  - *
+  - /
+  - %
+  - ()
+
+```javascript
+  var a = 1,
+      b = 2,
+      c = 3;
+  //  var d = a + b * d  // d 为 7
+  var d = (a + b) * d  // d 为 9
+
+  //  1 声明变量 c
+  //  2 变量a的值和变量 b 的值相加 再与变量 d 相乘得到结果
+  //  3 将结果赋值给变量 c
+
+  // 括号运算 > 普通运算 > 赋值
+
+```
+
+**加号的其他用法**
+
+> 浏览器 console 中数字是蓝色，字符串是黑色
+
+```javascript
+  var a = 1;
+  var b = 1 + 'str'
+  console.log(b)  // 输出 '1str'
+
+  var c = 'str' + 'str'
+  console.log(c)  // 输出 'strstr'
+
+  var d = true + 'str'
+  console.log(d)  // 输出 'truestr'
+
+  var f = 'str' + 1 + 1
+  console.log(f)  // 输出 'str11'
+
+  var g = 'str' + (1 + 1)
+  console.log(g)  // 输出 'str2'
+
+  var h = 1 + 1 +'str' + (1 + 1)
+  console.log(h)  // 输出 '2str2'
+```
+
+加号在与字符串运算时，标识字符串拼接
+字符串与任何数据相加都为字符串
+运算是从左到右的
+
+**NaN**
+> Not a Number 非数
+
+```javascript
+  var c = 0 / 0
+  console.log(c)  // 输出 NaN
+  // NaN 是一种数字类型
+
+  console.log(1 / 0) // 输出
+  console.log('a' / 2) // 输出NaN
+```
+在数据计算的时候出现了错误，导致了非数现象的出现
+
+**无穷**
+- Infinity
+  - 正无穷  数字类型  `console.log(1 / 0)`
+- -Infinity
+  - 负无穷  数字类型  `console.log(-1 / 0)`
+
+**取余**
+- %
+```javascript
+  console.log(5 % 3)  // 5 / 3 …… 2   输出 2
+  console.log(4 % 6)  // 输出 6
+```
+
+**交换值**
+- 交换 a 与 b 的值
+  <br>
+
+```javascript
+  var a = 1,
+      b = 2;
+  // 使用中间值
+  // var c = a;
+  //     a = b;
+  //     b=  c;
+  // console.log(a, b)
+
+  // 不适用中间变量
+  // a = a + b   // a = 3
+  // b = a - b   // b = 1
+  // a = a - b   // a = 2
+
+```
+**自加自减**
+
+++ 符号自身加 1
+-- 代表自身减 1
+
+++ 或 -- 放在变量前面 语句执行后再加 1  放在前面则为 先加 1再执行语句
+
+```javascript
+  var a = 1;
+  console.log(a++);   // 输出 1
+  console.log(a);     // 输出 2
+  console.log(++a);   // 输出 3
+
+  var b = 5;
+  cosnole.log(b--)    // 输出 5
+  cosnole.log(b)      // 输出 4
+  cosnole.log(--b)    // 输出 3
+
+  var c = 5,
+      d;
+  //  d = c++ + 1;
+  //  console.log(c, d)  // 输出 6, 6
+
+  //  d = +=c + 1;
+  //  console.log(c, d) // 输出 6, 7
+
+  d = c-- + --c
+  console.log(c, d) // 输出 3， 8
+  // 先运算 --c 此时 c 的值为 4
+  // 4 + 4 = 8
+  // 再运算 c-- 此时 c 的值为 3
+
+
+```
+
+**比较运算符**
+- >   >=
+- <   <=
+- =   ===
+- !=  !===
+
+```javascript
+  var bool;
+  bool = 1 > 2
+  console.log(bool) // 输出 false
+  // number 与 number 比较 直接就比较
+
+  bool = 1 > '2'
+  console.log(bool) // 输出 false
+  // number 与 string 比较 将 string 转换成 number
+
+  bool = '4' > '11'
+  console.log(bool) // 输出 true
+  bool = '1.5' > '11'
+  console.log(bool) // 输出 false
+   bool = 'a' > 'b'
+  console.log(bool) // 输出 false
+  // '4' 大于 '11'
+  // string 与 string 类型比较 则按照 ASCLL 码的大小比较
+  // 对比时从左到右按位对比
+```
+
+**等于**
+
+- == 相等不看数据类型 
+  - 1 == '1'    (true)
+  - 0 == false   (true)
+  - 相等符号在比较时会先转换成相同类型再比较
+- === 为全等 全等需要看数据类型是否相等
+  - 1 === '1'     (false)
+  - 0 === false     (false)
+
+注意：`NaN == NaN   (false)` NaN 与包括自己在内任何东西都不相等
+
+
+
+### 逻辑运算符
+
+- && 
+- ||
+- !
+
+**&&**
+
+逻辑与，并且，英文中的 and ，表示满两边必须同时满足
+
+```javascript
+var a = 1,
+    b = 2;
+console.log(a === 1 && b === 2) 	// true
+
+var c = 3,
+    d = 4;
+console.log(c === 3 && d === 4) 	// false
+```
+
+**||**
+
+逻辑或，或者，英文中的or，表示两边满足一个即可
+
+```javascript
+var a = 1,
+    b = 2;
+console.log(a === 1 || b == 2) 		// true
+
+var c = 3,
+    d = 4;
+console.log(c === 3 && d === 4) 	// true
+
+var e = 5,
+    f = 6;
+console.log(e === 3 && e === 4) 	// false
+```
+
+**!**
+
+逻辑非，表示原来值得反值
+
+```javascript
+console.log(!true)			// false
+console.log(!false)			// true
+console.log(!(1 === 1))		// false
+```
+
+逻辑运算符可以多次使用
+
+```javascript
+console.log( (a == 1 || b == 2) && c == 3 )
+// 当 a 为 1 或者 b 为 2 且 c 为 3 时才为 true
+// c 必须为 3 而 a 或 b 只有一种满足情况即可
+```
+
+**逻辑运算**
+
+一定为 假（false）的类型
+
+- undefined
+- null
+- NaN
+- '' 空字符串
+- 0
+- false
+
+除此以外，全部都是 真（true）
+
+
+
+**逻辑总结**
+
+```javascript
+var a = 1 && 2
+var b = 1 || 2
+var c = !1;
+console.log(a) // 输出 2
+console.log(b) // 输出 1
+console.log(c) // 输出 false
+```
+
+`1 && 2`
+
+遇到真就继续执行,遇到假立即返回当前的值，没有假则执行到最后返回最后的值
+
+```javascript
+1 && 1 // 返回1 真
+0 && 1 // 返回0 假
+1 && 0 // 返回0 假
+1 && 1 // 返回0 假
+if (... && ...) {} 	// 有一个假则全部为假
+```
+
+
+
+`1 || 2`
+
+遇到假就继续执行，遇到真立即返回当前的值，没有真则执行到最后返回最后的值
+
+```javascript
+1 || 1	// 返回1 真
+0 || 1	// 返回1 真
+1 || 0	// 返回1 真
+0 || 0	// 返回0 假
+if (... || ...) {} 	// 有一个真则全部为真
+```
+
+
+
+`!1`
+
+取反
+
+```javascript
+a = !a	// 取反
+b = !!b // 取反再取反
+```
+
+
+
+**常用方式**
+
+```javascript
+var name = ''
+console.log(name || '未找到数据')
+
+var fun = function() {}
+fun && fun()
+
+a.onclick = function(e) {
+    var ev = e || window.event; // 兼容 ie ,有 e 就用 e 没有 e 使用 window.event 
+}
+```
+
+
+
+## 判断
+
+> 在 JavaScript 中常用的判断方式
+
+### if...else if...else
+
+作为一种判断，表示满足某种条件时执行其中包含的代码块
+
+```javascript
+var score = 63;
+if (score >= 90 && score <= 100) {
+ 	console.log('您的成绩等级为A') 
+} else if (score >= 80 && score < 90) {
+ 	console.log('您的成绩等级为B') 
+} else if (score >= 70 && score < 80) {
+    console.log('您的成绩等级为C') 
+} else if (score >= 60 && score < 70) {
+    console.log('您的成绩等级为D') 
+} else if (score < 60 && score >= 0) {
+    console.log('您的成绩不合格') 
+} else {
+    console.log('您的成绩出现异常')
+}
+
+// 输出 您的成绩为D
+```
+
+
+
+## switch
+
+```javascript
+switch(变量) {
+  case 值:
+    语句;
+    break;
+  default:
+    语句;
+    break;
+}
+```
+
+应用场景 一般判断 **定值** 枚举数量较小时  使用 switch 较好，而范围判断一般使用 if 判断
+
+```javascript
+var city = window.prompt('请输入您所在的地区')
+// window.prompt 生成一个弹出的输入框，可以接收返回值
+switch(city) {
+  case: '北京':
+    console.log('15k')
+    break;
+  case: '上海':
+    console.log('14k')
+    break;
+  case: '广州':
+    console.log('13k')
+    break;
+  default:
+    console.log('10k')
+    break;
+}
+
+var score = 80;
+switch(true) {
+  case score >= 90 && score <= 100:
+    console.log('您的成绩等级为A')
+   	break;
+  case score >= 80 && score <= 90:
+    console.log('您的成绩等级为B')
+   	break;
+  case score >= 70 && score <= 80:
+    console.log('您的成绩等级为C')
+   	break;
+  case score >= 60 && score <= 70:
+    console.log('您的成绩等级为D')
+   	break;
+  case score < 60 && score >= 0:
+    console.log('您的成绩不合格')
+   	break;
+  default:
+    console.log('您的成绩出现异常')
+    break;
+}
+```
+
+
+
+## 循环
+
+> 多次执行相同代码的一种简便的方法
+
+### for循环
+
+**for循环写法**
+
+for (声明变量赋初始值; 判断条件; 自增或自减)  { 执行语句 }
+
+```javascript
+for(var i = 0; i < 10; i++) {
+    console.log(i)
+}
+```
+
+**for执行步骤**
+
+```javascript
+for(var i = 0; i < 10; i++) {
+    console.log(i)
+}
+
+1. 声明变量 i == 0
+2. 判断条件 if ( 1 < 10 )
+3. 执行语句 console.log(i)
+4. i++;
+
+2. 判断条件 if ( 1 < 10 )
+3. 执行语句 console.log(i)
+4. i++
+.......
+
+2. 判断条件 if ( 1 < 10 ) 不满足
+5. 结束
+```
+
+ 第 1 步的 声明在循环中只执行一次
+
+ 第 4 步的 i++ 在每一次判断后再执行
+
+所以可以抽离出一下代码
+
+```javascript
+var i = 0
+for(;i < 10;) {
+  console.log(i);
+  i++
+}
+var j = 0
+
+while(j < 10) {
+  console.log(i++)
+  i++
+}
+```
+
+### while 循环
+
+由上述代码可见 for 循环与 while 循环可以相互转换
+
+**while 循环写法**
+
+```javascript
+while(条件) {
+ 语句
+}
+```
+
