@@ -668,3 +668,66 @@ while(条件) {
 }
 ```
 
+### do...while
+
+do while 循环是至少执行一次
+
+```javascript
+var i = 0;
+do {
+    console.log('执行了')
+} while(i < 0)
+```
+
+
+
+
+
+### 死循环
+
+无法终止循环的循环成为死循环，死循环会一直循环下去
+
+```javascript
+while(1) {}
+for(var i = 0; 1; i++) {}
+```
+
+
+
+### break
+
+break 在循环中可以终止循环
+
+```javascript
+for(var i = 0; i < 10; i++) {
+    if(1 >= 5) {
+        break;
+    }
+}
+// 当 i 等于 5 时跳出循环
+var j = 0
+while(j) {
+  if(j >= 5) {
+      break;
+  }
+  j++;
+}
+// 当 i 等于 5 时跳出循环5
+```
+
+
+
+### continue
+
+continue 在循环中可以跳过某次循环
+
+```javascript
+for(var i = 0; i < 100; i++) {
+    if(i % 2 == 0) {
+        continue;
+    }
+  console.log(i)
+}
+// 打印 100 以内的奇数， 如果 i % 2 == 0 则为偶数，continue 跳过本次循环。
+```
+
