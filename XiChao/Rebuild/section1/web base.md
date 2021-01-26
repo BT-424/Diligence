@@ -4,12 +4,17 @@
 ### 浏览器介绍
 > 主流浏览器都拥有自己的内核
 
-  5大主流浏览器    内核
-  IE              trident
-  chrome          webkit blink
-  safari          webkit
-  firefox         gecko
-  opera           presto
+   
+
+| 5大主流浏览器 |      内核      |
+| :-----: | :----------: |
+|   IE    |   trident    |
+| chrome  | webkit blink |
+| safari  |    webkit    |
+| firefox |    gecko     |
+|  opera  |    presto    |
+
+​       
 
 ### 浏览器历史与 JS 诞生
 
@@ -42,7 +47,7 @@
 **6. 1996 年**
   - JAVA (SUN公司) 具有一定知名度
   - livescript 与 SUN 公司合作推广产品，改名为 JavaScript
-  
+
 **7. 2001 年**
   - IE6 XP 诞生
   - 在渲染引擎中将 JavaScript 引擎从中剥离出来
@@ -63,7 +68,7 @@
 
 ### ECMA
 > European Computer Manufactures Association 欧洲计算机制造联合会（日内瓦）
-评估、开发和认可电信和计算机标准
+> 评估、开发和认可电信和计算机标准
 
 ECMA - 262 规范 （ECMAScript 规范）
 
@@ -108,12 +113,12 @@ ECMA - 262 规范 （ECMAScript 规范）
 
 **轮转时间片**
   - 短时间内轮流执行多个任务的片段
-  1. 多任务
-  2. 切分任务分为时间片
-  3. 随机排列任务片段，组成队列
-  4. 按照队列顺序将任务片段送进 JS 进程
-  5. JS 线程执行一个又一个任务片段
-  6. 时间片用完后，必须轮转给下一个任务，无论是否完成
+    1. 多任务
+    2. 切分任务分为时间片
+    3. 随机排列任务片段，组成队列
+    4. 按照队列顺序将任务片段送进 JS 进程
+    5. JS 线程执行一个又一个任务片段
+    6. 时间片用完后，必须轮转给下一个任务，无论是否完成
 
 
 
