@@ -9,3 +9,11 @@
 所以决定从头开始，从细小细微处查缺补漏。
 
 不破不立。
+
+
+
+[section1 ](https://github.com/BT-424/Diligence/tree/master/XiChao/Rebuild/section1) 前端基础知识
+
+[section2](https://github.com/BT-424/Diligence/tree/master/XiChao/Rebuild/section2) JavaScript 基础语法
+
+[section3](https://github.com/BT-424/Diligence/tree/master/XiChao/Rebuild/section3) 类型转换
