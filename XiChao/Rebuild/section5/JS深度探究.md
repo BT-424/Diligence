@@ -274,7 +274,110 @@ console.log(a)
 实际上  GO === window   GO 的过程就是 window 对象属性变化的过程
 ```
 
+### GO 与 AO
+
+AO对应的是函数执行阶段，当函数被调用执行时，会建立一个执行上下文
+
+```javascript
+// 报错 c is not a defined
+console.log(c)
+function test(data) {
+    c = data;
+    console.log(c)
+}
+test(1)
+// 下述代码不会报错
+
+function test(data) {
+    c = data;
+    console.log(c)
+}
+test(1)
+console.log(c)
+```
 
 
 
+<br>
 
+
+
+在全局 GO 中先提升变量，再提升函数，函数会覆盖前面提升的变量
+
+在局部 AO 中，先提升变量再赋值实参，然后提升函数，函数覆盖前面提升的变量
+
+```javascript
+var b = 3;
+console.log(a);
+function a(a) {
+    console.log(a);
+    var a = 2;
+    console.log(a);
+    function a() { }
+    var b = 5;
+    console.log(b);
+}
+
+a(1);
+
+/**
+ *  GO = {                          //  1.  创建 GO 对象
+ *      b : undefined               //  2.  变量提升
+ *		  ——>   3                   //  4.  代码执行赋值
+ *      a : function a() {大}       //  3.  函数提升
+ *      console.log(a);             //  5.  输出   function a() {大}
+ *      a(1)                        //  6.  调用函数 a
+ * }
+ *
+ * 函数 a 的  AO = {                //  7.  创建 AO 对象
+ *      a : undefined               //  8.  形参
+ *        ——>  undefined            //  9.  变量声明
+ *        ——>  1                    //  11. 实参赋值
+ *        ——>  function a() {小}    //  12. 函数提升
+ *        ——>  2                    //  14. 代码执行赋值    a = 2
+ *      b : undefined               //  10. 变量声明
+ *        ——>  5                    //  16. 代码执行赋值    b = 5
+ *      console.log(a)              //  13. 代码执行 输出 function a() {小}
+ *      console.log(a)              //  15. 代码执行 输出 2
+ *      console.log(b);             //  17. 代码执行 输出 5
+ *
+ * }
+ *
+*/
+```
+
+**内部声明**
+
+```javascript
+a = 1;
+function test() {
+    console.log(a);
+    a = 2;
+    console.log(a);
+    var a = 3;
+    console.log(a);
+}
+
+test();
+
+var a;
+
+/**
+ * GO = {
+ *  a : undefined ——> 1
+ *  test: function () {...}
+ *  test()
+ * }
+ *
+ * AO = {		   //  顺序
+ *  a : undefined   //  1
+ *     ——> 2        //  3
+ *     ——> 3        //  5
+ *  console.log(a)  //  2
+ *  console.log(a)  //  4
+ *  console.log(a)  //  6
+ * }
+ */
+```
+
+test 函数内的第一行 console 并不会输出外部的 a = 1, 因为在函数内部声明时，AO 已经存在 a，并且值为 undefined，当内部存在时，使用内部，内部不存在时再向上查找。
