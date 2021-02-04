@@ -1,0 +1,7 @@
+1. 在使用本地图片的时候, 可以通过ES6的import引入方式引入图片,图片会被自动转换成base64的格式
+
+2. 在ios的系统上使用new Date()转换的时间, 通过自定义的时间转换方法转换成yyyy/mm/dd的格式时, '/'符号会被转换为'%'符号, 所以建议自己定义字符串转换的方法去替换符号
+
+3. 在做直播的功能时, 因为直播流格式有多种, 例如: m3u8, flv, RTMP, 可以使用腾讯云的文档(https://cloud.tencent.com/document/product/881/20207)支持多种直播流格式, 也可以通过引入video.js; 如果直播流格式时flv格式可以引入flv.js; 在ios中直播流格式只支持m3u8格式, flv格式无法在ios中播放.
+
+4. 解码: decodeURIComponent(); 编码: encodeURIComponent() 在路径上拼接参数的时候, 如果对应的参数带有 http:// 或 https:// 类似网络地址的参数值时, encodeURIComponent对其编码, 接收参数后解码. 因为当类似的参数拼接在query中的时候, 地址栏会自动将其截取, 导致部分参数丢失

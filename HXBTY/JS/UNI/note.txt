@@ -1,0 +1,9 @@
+1. jyf-parser.js 这个可以通过uni插件市场下载, 是一个富文本解析插件, 在uni开发的微信小程序中内嵌富文本内容, 无法修改富文本内部的样式, 使用这个插件后可以修改
+
+2. uni提供的本地存储(getStorageSync), 读取(setStorageSync)的方法存在问题, 会存在无法读取已存储的数据的情况. 可以使用 globalData 在app.vue中像data一样定义全局变量, 通过getApp().globalData获取与赋值
+
+3. 在小程序中使用高德地图SDK: 先引入高德地图sdk(参考: https://developer.amap.com/product/map), 可以通过高德web服务中的逆地理api, 输入中文地址获取对应的经纬度, 再通过map组件绘制地图(注意: 在微信小程序中绘制的地图是要基于腾讯地图去绘制的, 因此, 若是腾讯地图外的第三方地图插件绘制地图, 会被默认盖上腾讯地图的水印并且无法去除, 可以通过cover-view覆盖)
+
+4. web-view在微信小程序中默认层级最高, 占满全屏, 并且无法修改对应的title样式
+
+5. 微信小程序不支持cover-view去覆盖web-view(文档上明确说明), 有时通过cover-view确实能实现覆盖web-view的功能(在开发版可能会出现这种情况), 但是在正式的微信小程序环境, 或者uni编译的微信小程序是无法实现的!
