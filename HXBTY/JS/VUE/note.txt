@@ -1,0 +1,8 @@
+1. 在vue的.env环境配置文件中,只有以NODE_ENV、BASE_URL、VUE_APP_开头的变量可以通过webpack静态的嵌套到代码中, 遇到需要请求网关不同, 或者接口根地址不同, 就可以在.env文件中配置不同的公共根地址, 通过在封装的请求方法中添加参数, 再在请求拦截器中添加判断, 根据传递的参选择请求的根地址
+
+2. router.addRoutes(accessRoutes) 在vue-router上添加动态路由, 后面的参数必须是一个符合路由格式的数组, 在实现动态菜单的时候可以使用
+
+3. next({ ...to, replace: true }) 确保addRoutes已经完成, replace设置为true, 那么导航就不会留下history记录, 点击浏览器不会再回到这个路由
+(2,3两条在花裤衩的element+vue集成的后台系统中有使用到, 可参考: https://panjiachen.github.io/vue-element-admin-site/zh)
+
+4. this.$nextTick(() => {}) vue中当dom加载完后执行内部方法(个人感觉挺常用的)
